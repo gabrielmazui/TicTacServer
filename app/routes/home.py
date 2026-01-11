@@ -19,3 +19,8 @@ def match():
 def match():
     with open("templates/login.html", encoding="utf-8") as f:
         return f.read()
+    
+@app.get("/signup", response_class=HTMLResponse)
+def match():
+    with open("templates/signup.html", encoding="utf-8") as f:
+        return f.read()

@@ -22,7 +22,7 @@ def signup(
     }
 
     response = RedirectResponse(
-        url="/",
+        url="/login",
         status_code=303
     )
     return response
@@ -35,7 +35,7 @@ def login(
     password: str = Form(...),
     keeplogged: str | None = Form(None)
 ):
-    user = users.get(username)
+    user = users.get(username, None)
 
     if not user or not pwd.verify(password, user["password"]):
         raise HTTPException(401, "Usuário ou senha inválidos")
@@ -68,9 +68,9 @@ def logout(
         sessions.pop(session, None)
 
     response = RedirectResponse(
-        url="/",
+        url="/login",
         status_code=303
     )
 
     response.delete_cookie("session")
-    return {"ok": True, "msg": "Logout feito"}
+    return response

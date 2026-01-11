@@ -14,7 +14,7 @@ def get_user_from_session(token: str | None):
     if not token:
         return None
 
-    data = sessions.get(token)
+    data = sessions.get(token, None)
     if not data:
         return None
 
