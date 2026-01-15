@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChessServer • Signup</title>
+  <link rel="icon" href="/static/favicon.ico">
+  <link rel="stylesheet" href="/static/signup/css/style.css">
+</head>
+<body>
+
+  <div id="auth-app">
+    <div class="auth-card">
+
+        <h1 class="logo">♟ ChessServer</h1>
+        <p class="subtitle">Welcome back. Let’s play.</p>
+        <div id="form-message" class="form-message hidden"></div>
+        <form id="signup-form" action="/signup" method="post">
+            <div class="input-group">
+                <label>Username</label>
+                <input id="username" type="text" placeholder="Enter your username" minlength="3" maxlength="20" required>
+            </div>
+
+            <div class="input-group">
+            <label>Password</label>
+            <input id="password" type="password" placeholder="••••••••" minlength="6" maxlength="128" required>
+            </div>
+
+            <button id="signup-btn" type="submit" disabled>Create account</button>
+        </form>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+
+        <button id="login-btn" class="secondary">
+            Log in to your account
+        </button>
+
+        </div>
+    </div>
+
+  <script src="/static/signup/js/script.js"></script>
+</body>
+</html>

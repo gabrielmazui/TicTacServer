@@ -1,14 +1,20 @@
+from fastapi import WebSocket
 from app.chess.chess_match import ChessMatch
 from app.chess.chess_match_http import ChessMatchHttp
+from typing import Dict, Set
+import asyncio
 
-waiting_matches: dict[str, ChessMatch] = {} 
-matches: dict[str, ChessMatch] = {}
+waiting_matches: Dict[str, ChessMatch] = {} 
+matches: Dict[str, ChessMatch] = {}
+waiting_creator_match: Dict[str, ChessMatch] = {}
 
-waiting_matches_http: dict[str, ChessMatchHttp]
-matches_http: dict[str, ChessMatchHttp]
+waiting_matches_http: Dict[str, ChessMatchHttp]
+matches_http: Dict[str, ChessMatchHttp]
 # para enviar para o cliente
 
-# id -> class do match
+USERS: Dict[str, Dict[str, str]] = {}      # username -> { password }
+SESSIONS: Dict[str, Dict] = {}   # token -> { user, exp }
+USER_SESSIONS: Dict[str, Set] = {} # user -> {tokens}
+ACTIVE_WS: Dict[str, Set[WebSocket]] = {}  # token -> set de WebSockets
 
-users: dict[str, dict[str, str]] = {}      # username -> { password }
-sessions: dict[str, dict] = {}   # token -> { user, exp }
+match_lock = asyncio.Lock()

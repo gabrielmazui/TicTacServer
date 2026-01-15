@@ -8,10 +8,24 @@ createServerBtn.addEventListener("click", () => overlay.style.display="flex");
 closeOverlayBtn.addEventListener("click", () => overlay.style.display="none");
 overlay.addEventListener("click", e => { if(e.target===overlay) overlay.style.display="none"; });
 
+async function create_match() {
+  const response = await fetch("/create-math", {
+    method: "POST"
+  });
+
+  if (response.redirected) {
+    window.location.href = response.url;
+    return;
+  }
+
+  const data = await response.json();
+
+  window.location.href = `/match/${data.match_id}`;
+}
+
 confirmCreateBtn.addEventListener("click", () => {
-    console.log("Match created!");
     overlay.style.display="none";
-    // Chame sua API para criar a partida aqui
+    create_match()
 });
 
 const logo = document.getElementById("logo")
@@ -33,12 +47,21 @@ document.addEventListener("click", () => {
   logoutBtn.classList.remove("show");
 });
 
+async function logout(){
+  const response = await fetch("/logout", {
+    method: "POST"
+  });
+  if (response.redirected) {
+    window.location.href = response.url;
+    return;
+  }
+}
+
 // click no sair
 logoutBtn.addEventListener("click", (e) => {
   e.stopPropagation(); // não fecha antes de executar
-  console.log("Logout clicked");
-
   logoutBtn.classList.remove("show");
+  logout()
 });
 
 
@@ -46,7 +69,6 @@ logoutBtn.addEventListener("click", (e) => {
 document.querySelectorAll(".join-btn").forEach(btn => {
   btn.addEventListener("click", () => {
       const matchId = btn.dataset.id;
-      console.log("Joining match", matchId);
       window.location.href = `/room/${matchId}`;
   });
 });
@@ -54,7 +76,20 @@ document.querySelectorAll(".join-btn").forEach(btn => {
 document.querySelectorAll(".watch-btn").forEach(btn => {
   btn.addEventListener("click", () => {
       const matchId = btn.dataset.id;
-      console.log("Watching match", matchId);
       window.location.href = `/room/${matchId}`;
   });
 });
+
+const ws = new WebSocket("ws://localhost:8080/ws/session");
+
+ws.onmessage = (event) => {
+    if (event.data === "logout") {
+        // recebeu evento de logout → redireciona pra login
+        window.location.href = "/login";
+    }
+};
+
+ws.onclose = (event) => {
+    console.log("oi")
+    window.location.href = "/login";
+};

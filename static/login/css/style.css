@@ -1,0 +1,230 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ================= BACKGROUND ================= */
+html, body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(59,130,246,0.25), transparent 70%),
+    radial-gradient(700px 400px at 85% 10%, rgba(34,197,94,0.18), transparent 70%),
+    linear-gradient(180deg, #070a12, #0b0e16 40%, #070a12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5e7eb;
+}
+
+/* ================= APP ================= */
+#auth-app {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+/* ================= CARD ================= */
+.auth-card {
+  background: linear-gradient(180deg, #1b2140, #12162b);
+  border-radius: 20px;
+  padding: 36px 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+  animation: pop 0.35s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ================= HEADER ================= */
+.logo {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+/* ================= FORM ================= */
+form {
+  margin-top: 26px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #cbd5f5;
+}
+
+.input-group input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, #20274a, #181d35);
+  color: #e5e7eb;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-group input::placeholder {
+  color: #9ca3af;
+}
+
+.input-group input:focus {
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.45);
+}
+
+/* ================= BUTTONS ================= */
+button {
+  width: 100%;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+/* login */
+#login-btn {
+  margin-top: 6px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #052e16;
+}
+
+#login-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+.divider span {
+  padding: 0 12px;
+}
+
+/* register */
+button.secondary {
+  background: linear-gradient(180deg, #1e253a, #161b2b);
+  color: #93c5fd;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+button.secondary:hover {
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.5);
+}
+
+/* ================= LOADING / DISABLED ================= */
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  filter: grayscale(0.2);
+}
+
+body.loading {
+  cursor: wait;
+}
+
+/* ================= KEEP LOGGED ================= */
+.keep-logged {
+  margin: 12px 0 4px;
+}
+
+.keep-logged label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #cbd5f5;
+  cursor: pointer;
+  user-select: none;
+}
+
+.keep-logged input {
+  width: 16px;
+  height: 16px;
+  accent-color: #22c55e;
+  cursor: pointer;
+}
+
+/* ================= FORM MESSAGE ================= */
+.form-message {
+  margin-top: 18px;
+  margin-bottom: 4px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: slideDown 0.25s ease;
+}
+
+.form-message.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.form-message.success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #bbf7d0;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.form-message.hidden {
+  display: none;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

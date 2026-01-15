@@ -5,19 +5,25 @@ from app.auth.session import *
 from app.storage import *
 
 router = APIRouter(tags=["auth"])
-pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd = CryptContext(schemes=["argon2"], deprecated="auto")
 
 #-------------
 # SIGNUP
 @router.post("/signup")
-def signup(
-    username: str = Form(..., min_length=3),
-    password: str = Form(..., min_length=6)
+async def signup(
+    username: str = Form(..., min_length=3, max_length=20),
+    password: str = Form(..., min_length=6, max_length=128),
+    session: str | None = Cookie(None)
 ):
-    if username in users:
-        raise HTTPException(400, "Não foi possível criar a conta")
+    
+    usr = get_user_from_session(session)
+    if usr is not None:
+        return RedirectResponse(url="/", status_code=303)
+    
+    if username in USERS:
+        raise HTTPException(400, "User already exists")
 
-    users[username] = {
+    USERS[username] = {
         "password": pwd.hash(password)
     }
 
@@ -29,16 +35,21 @@ def signup(
 
 
 @router.post("/login")
-def login(
+async def login(
     response: Response,
     username: str = Form(...),
     password: str = Form(...),
-    keeplogged: str | None = Form(None)
+    keeplogged: str | None = Form(None),
+    session: str | None = Cookie(None)
 ):
-    user = users.get(username, None)
+    usr = get_user_from_session(session)
+    if usr is not None:
+        return RedirectResponse(url="/", status_code=303)
+    
+    user = USERS.get(username, None)
 
     if not user or not pwd.verify(password, user["password"]):
-        raise HTTPException(401, "Usuário ou senha inválidos")
+        raise HTTPException(401, "Incorrect user or password")
 
     session_time = 60 * 60           # 1 hora
     if keeplogged:
@@ -60,12 +71,19 @@ def login(
     return response
 
 @router.post("/logout")
-def logout(
+async def logout(
     response: Response,
     session: str | None = Cookie(None)
 ):
-    if session:
-        sessions.pop(session, None)
+    usr = get_user_from_session(session)
+
+    if not usr:
+        return RedirectResponse(
+            url="/login",
+            status_code=303
+        )
+    
+    await logout_all_ws(usr)
 
     response = RedirectResponse(
         url="/login",

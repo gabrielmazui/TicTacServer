@@ -1,5 +1,5 @@
 fastapi
-uvicorn
-passlib[bcrypt]
+uvicorn[standard]
+passlib[argon2]
 python-multipart
 jinja2

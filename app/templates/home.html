@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Tic Tac Toe</title>
+  <title>ChessServer</title>
+  <link rel="icon" href="/static/favicon.ico">
   <link rel="stylesheet" href="static/home/css/style.css">
 </head>
 <body>
@@ -40,6 +41,9 @@
             <div class="server-card">
               <div class="server-info">
                 <strong>{{ s.players }}</strong>
+              </div>
+              <div class="spectators">
+                👁️ {{ s.spectators }} spectators
               </div>
               <div class="server-actions">
                 <button class="watch-btn" data-id="{{ s.id }}">Watch</button>

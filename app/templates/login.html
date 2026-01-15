@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChessServer • Login</title>
+  <link rel="icon" href="/static/favicon.ico">
+  <link rel="stylesheet" href="/static/login/css/style.css">
+</head>
+<body>
+
+  <div id="auth-app">
+    <div class="auth-card">
+
+      <h1 class="logo">♟ ChessServer</h1>
+      <p class="subtitle">Welcome back. Let’s play.</p>
+      
+      <div id="form-message" class="form-message hidden"></div>
+
+      <form id="login-form">
+        <div class="input-group">
+          <label>Username</label>
+          <input id="username" type="text" placeholder="Enter your username" required>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input id="password" type="password" placeholder="••••••••" required>
+        </div>
+        <div class="keep-logged">
+          <label>
+            <input id="keeplogged" type="checkbox">
+            <span>Keep me logged in</span>
+          </label>
+        </div>
+
+        <button id="login-btn" type="submit">Login</button>
+      </form>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <button id="register-btn" class="secondary">
+        Create new account
+      </button>
+
+    </div>
+  </div>
+
+  <script src="/static/login/js/script.js"></script>
+</body>
+</html>

@@ -2,14 +2,25 @@ from fastapi import APIRouter, Request, Cookie
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uuid
+import asyncio
 from app.auth.session import *
 from app.storage import *
 from app.chess.chess_match import ChessMatch
-from app.chess.chess_match_http import ChessMatchHttp
 
 router = APIRouter(tags=["match"])
 
 templates = Jinja2Templates(directory="app/templates")
+
+async def expire_match(match_id: str):
+    await asyncio.sleep(60) # 60 segundos para o criador entrar na partida
+
+    async with match_lock:
+        match = waiting_creator_match.get(match_id)
+        if match is None:
+            return
+
+        if match.status == "waiting":
+            waiting_creator_match.pop(match_id, None)
 
 #---------------
 # CREATE MATCHES
@@ -31,8 +42,8 @@ async def create_match_player(session: str | None = Cookie(default = None)):
     while match_id in matches or match_id in waiting_matches:
         match_id = str(uuid.uuid4())
 
-    waiting_matches[match_id] = match_wait
-    waiting_matches_http[match_id] = ChessMatchHttp(match_id, usr, None)
+    waiting_creator_match[match_id] = match_wait
+    asyncio.create_task(expire_match(match_id))
 
     return {"match_id" : match_id}
     
